@@ -1,5 +1,21 @@
 library(RCurl)
-#Note: Please change the broswer key of your own on Line 31.
+library(httr)
+library(RJSONIO)
+#Note: Please change the broswer key of your own.
+browerKey = "YOUR_BROWSER_KEY"
+
+extractJSONContent <- function(x){
+    test <- list()
+    counter = 1;
+    for(i in x){
+        str(i)
+        # print(i$mid)
+        # print(i$description)
+        # print(i$score)
+    }
+    
+    return(test)
+}
 
 parseFigure <- function(figureName){
     print(figureName)
@@ -10,7 +26,7 @@ parseFigure <- function(figureName){
     
     # Save the base64 string into a text file.
     fileConn<-file("base64figure.txt")
-    writeLines(paste("{
+    lines = paste("{
       \"requests\":[
         {
           \"image\":{
@@ -24,12 +40,18 @@ parseFigure <- function(figureName){
       ]
     }
     ]
-    }"), fileConn)
+    }")
+    writeLines(lines, fileConn)
     close(fileConn)
     
     # Call the Google Vision API. Please input your broswer key here.
-    resp <- system('curl -v -k -s -H "Content-Type: application/json" https://vision.googleapis.com/v1/images:annotate?key=YOUR_BROWSER_KEY --data-binary @base64figure.txt')
-    print(resp)
+    httpheader1 <- c(Accept="application/json; charset=UTF-8",
+                "Content-Type"="application/json", "Content-Length"= nchar(lines))
+                
+    r <- POST(paste("https://vision.googleapis.com/v1/images:annotate?key=", browserKey), httpheader=httpheader1,
+        body=upload_file("base64figure.txt"), encode="json", verbose())
+    jsonText <- content(r, type = "application/json")
+    results = extractJSONContent(jsonText$responses[[1]]$labelAnnotations)
     file.remove("base64figure.txt")
 }
 
@@ -41,4 +63,6 @@ floodFigureNames <- c("flood1.jpg", "flood2.jpg", "flood3.jpg", "flood4.jpg",
                 "flood5.jpg", "flood6.jpg", "flood7.jpg", "flood8.jpg", 
                 "flood9.jpg", "flood10.jpg");
 
-lapply(earthquakeFigureNames, parseFigure)
+allFiles <- list.files("images")
+
+lapply(allFiles[2], parseFigure)

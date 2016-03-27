@@ -1,5 +1,21 @@
 library(RCurl)
-#Note: Please change the broswer key of your own on Line 30.
+library(httr)
+library(RJSONIO)
+#Note: Please change the broswer key of your own.
+browerKey = "YOUR_BROWSER_KEY"
+
+extractJSONContent <- function(x){
+    test <- list()
+    counter = 1;
+    for(i in x){
+        str(i)
+        # print(i$mid)
+        # print(i$description)
+        # print(i$score)
+    }
+    
+    return(test)
+}
 
 parseFigure <- function(figureName){
     # Read the file and turn the binary figure into the base64 string.
@@ -27,8 +43,13 @@ parseFigure <- function(figureName){
     close(fileConn)
     
     # Call the Google Vision API. Please input your broswer key here.
-    resp <- system('curl -v -k -s -H "Content-Type: application/json" https://vision.googleapis.com/v1/images:annotate?key=YOUR_BROWSER_KEY --data-binary @base64figure.txt')
-    print(resp)
+    httpheader1 <- c(Accept="application/json; charset=UTF-8",
+                "Content-Type"="application/json", "Content-Length"= nchar(lines))
+                
+    r <- POST(paste("https://vision.googleapis.com/v1/images:annotate?key=", browserKey), httpheader=httpheader1,
+        body=upload_file("base64figure.txt"), encode="json", verbose())
+    jsonText <- content(r, type = "application/json")
+    results = extractJSONContent(jsonText$responses[[1]]$faceAnnotations)
     file.remove("base64figure.txt")
 }
 
