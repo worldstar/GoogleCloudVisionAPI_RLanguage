@@ -2,7 +2,7 @@ library(RCurl)
 library(httr)
 library(RJSONIO)
 #Note: Please change the broswer key of your own.
-browerKey = "YOUR_BROWSER_KEY"
+browserKey = "YOUR_BROWSER_KEY"
 
 extractJSONContent <- function(x){
     test <- list()
@@ -17,9 +17,9 @@ extractJSONContent <- function(x){
     return(test)
 }
 
-parseFigure <- function(figureName){
+parseFigure <- function(figureName, directorayName){
     # Read the file and turn the binary figure into the base64 string.
-    f = paste(getwd(), "images/", figureName, sep = .Platform$file.sep)
+    f = paste(getwd(), directorayName, figureName, sep = .Platform$file.sep)
     img = readBin(f, "raw", file.info(f)[1, "size"])
     b64 = base64Encode(img, "character")
     
@@ -53,4 +53,4 @@ parseFigure <- function(figureName){
     file.remove("base64figure.txt")
 }
 
-parseFigure("NonEarthquake7.jpg")
+parseFigure("NonEarthquake7.jpg", directorayName = "images")
