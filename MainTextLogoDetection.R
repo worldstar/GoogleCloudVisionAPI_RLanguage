@@ -6,14 +6,7 @@ browserKey = "YOUR_BROWSER_KEY"
 
 extractJSONContent <- function(x){
     test <- list()
-    counter = 1;
-    for(i in x){
-        str(i)
-        # print(i$mid)
-        # print(i$description)
-        # print(i$score)
-    }
-    
+    print(paste("$description: ", x[[1]]$description ))
     return(test)
 }
 

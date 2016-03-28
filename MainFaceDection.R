@@ -6,13 +6,15 @@ browserKey = "YOUR_BROWSER_KEY"
 
 extractJSONContent <- function(x){
     test <- list()
-    counter = 1;
-    for(i in x){
-        str(i)
-        # print(i$mid)
-        # print(i$description)
-        # print(i$score)
-    }
+    print(paste("$detectionConfidence: ", x[[1]]$detectionConfidence))
+    print(paste("$landmarkingConfidence: ", x[[1]]$landmarkingConfidence))
+    print(paste("detectionConfidence: ", x[[1]]$joyLikelihood))
+    print(paste("$joyLikelihood: ", x[[1]]$sorrowLikelihood))
+    print(paste("$angerLikelihood: ", x[[1]]$angerLikelihood))
+    print(paste("$surpriseLikelihood: ", x[[1]]$surpriseLikelihood))
+    print(paste("$underExposedLikelihood: ", x[[1]]$underExposedLikelihood))
+    print(paste("$blurredLikelihood: ", x[[1]]$blurredLikelihood))
+    print(paste("$headwearLikelihood: ", x[[1]]$headwearLikelihood))
     
     return(test)
 }
