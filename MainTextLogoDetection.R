@@ -25,11 +25,11 @@ parseFigure <- function(figureName, directorayName){
     
     # Save the base64 string into a text file.
     fileConn<-file("base64figure.txt")
-    writeLines(paste("{
+    lines = paste("{
       \"requests\":[
         {
           \"image\":{
-            \"content\":\"",b64, "\"
+            \"content\":\"", b64, "\"
                      },
     \"features\":[
       {
@@ -39,7 +39,8 @@ parseFigure <- function(figureName, directorayName){
       ]
     }
     ]
-    }"), fileConn)
+    }")
+    writeLines(lines, fileConn)
     close(fileConn)
     
     # Call the Google Vision API. Please input your broswer key here.
