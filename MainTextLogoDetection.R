@@ -45,6 +45,8 @@ parseFigure <- function(figureName, directorayName){
     jsonText <- content(r, type = "application/json")
     results = extractJSONContent(jsonText$responses[[1]]$textAnnotations)
     file.remove("base64figure.txt")
+
+    return(results)    
 }
 
 parseFigure("NonEarthquake7.jpg", directorayName = "images")

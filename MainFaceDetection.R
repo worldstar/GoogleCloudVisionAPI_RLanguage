@@ -16,7 +16,7 @@ extractJSONContent <- function(x){
     print(paste("$blurredLikelihood: ", x[[1]]$blurredLikelihood))
     print(paste("$headwearLikelihood: ", x[[1]]$headwearLikelihood))
     
-    return(test)
+    return(x)
 }
 
 parseFigure <- function(figureName, directorayName){
@@ -54,6 +54,8 @@ parseFigure <- function(figureName, directorayName){
     jsonText <- content(r, type = "application/json")
     results = extractJSONContent(jsonText$responses[[1]]$faceAnnotations)
     file.remove("base64figure.txt")
+    
+    return(results)
 }
 
 parseFigure("NonEarthquake4.jpg", directorayName = "images")
