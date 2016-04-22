@@ -1,0 +1,2 @@
+# Extra Management System
+We like to record the image parsing results into a MySQL database. The management system is ran on a GPL [Resin Server](http://caucho.com/products/resin/download). Please download the zip file and createTables.sql. first. Then, in the SQL file, we assume we use a database named test and we create some tables (such as User, Topic, and TopicDetails) to store the query topics. Then, there are corresponding JSPs under the ResinSystem/webapps/ROOT. Please look up the folders User, Topic, and TopicDetails which are the JSPs managing the three tables.

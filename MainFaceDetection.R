@@ -26,7 +26,8 @@ parseFigure <- function(figureName, directorayName){
     b64 = base64Encode(img, "character")
     
     # Save the base64 string into a text file.
-    fileConn<-file("base64figure.txt")
+    fileName = sprintf("base64figure%s.txt", sample(1:100000, 1))
+    fileConn<-file(fileName)
     lines = paste("{
       \"requests\":[
         {
@@ -50,11 +51,11 @@ parseFigure <- function(figureName, directorayName){
                 "Content-Type"="application/json", "Content-Length"= nchar(lines))
                 
     r <- POST(paste("https://vision.googleapis.com/v1/images:annotate?key=", browserKey), httpheader=httpheader1,
-        body=upload_file("base64figure.txt"), encode="json", verbose())
+        body=upload_file(fileName), encode="json", verbose())
     jsonText <- content(r, type = "application/json")
     results = extractJSONContent(jsonText$responses[[1]]$faceAnnotations)
-    file.remove("base64figure.txt")
-    
+    file.remove(fileName)
+
     return(results)
 }
 
